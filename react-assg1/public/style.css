@@ -1,0 +1,36 @@
+.navigation{
+
+	border-bottom:1px solid black;
+}
+
+.navigation li{
+
+	display:inline;
+	list-style-type:none;
+	padding:10px;
+
+}
+
+
+.page-content{
+
+		
+		margin-top:15px;
+	}
+
+.page-content li{
+		border:1px solid black;
+		list-style-type:none;
+		padding:10px;
+
+	}
+
+.page-content li .news-data{
+	margin-left:20px;
+	margin-right:20px;
+	display:inline-block;
+}	
+
+
+
+
