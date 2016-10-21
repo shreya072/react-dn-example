@@ -2,28 +2,33 @@ import React from 'react';
 import news from './data/news.js'
 
 import NewsList from './newsList';
+import NewsHeader from './newsHeader';
 
 class NewsFeed extends React.Component {
   constructor(props) {
     super(props);
     
     this.increaseUpvotes = this.increaseUpvotes.bind(this);
-    this.mainPage = this.mainPage.bind(this);
-    this.starredPage = this.starredPage.bind(this);
-   
+    this.starredNews = this.starredNews.bind(this);
+    this.switchToStarred = this.switchToStarred.bind(this);
+    this.switchToTop = this.switchToTop.bind(this);
+
    this.state = {
-      newsList:news
-     
+      newsList:news,
+      tab:1
     }
   }
 
   increaseUpvotes(id){
 
-     var newsList = this.state.newsList.slice(0).map(newsitem => Object.assign({}, newsitem));
-     var updatedList = [];
-   
-    for(var i = 0; i < newsList.length; i++) {
-    var obj = newsList[i];
+    var newsList,updatedList,listLen,obj;
+
+      newsList = this.state.newsList.slice(0).map(newsitem => Object.assign({}, newsitem));
+      updatedList = [];
+      listLen = newsList.length;
+
+    for(var i = 0; i < listLen; i++) {
+     obj = newsList[i];
 
     if(id === obj.id) {
         obj.upvotes++;
@@ -36,7 +41,7 @@ class NewsFeed extends React.Component {
     }
   }
 
-  console.log(updatedList);
+
 
   this.setState({
       newsList:updatedList
@@ -47,39 +52,76 @@ class NewsFeed extends React.Component {
 
   }
 
-  mainPage(){
+  starredNews(id){
+
+    var newsList,updatedList,listLen,obj;
+
+      newsList = this.state.newsList.slice(0).map(newsitem => Object.assign({}, newsitem));
+      updatedList = [];
+      listLen = newsList.length;
+
+    for(var i = 0; i < listLen; i++) {
+     obj = newsList[i];
+
+     if(id === obj.id) {
+        obj.isStarred =true;
+        updatedList.push(obj);
+        
+    }
+    else
+    {
+      updatedList.push(obj);
+    }
+  }
+
+  this.setState({
+      newsList:updatedList
+      
+    });
 
 
   }
 
-  starredPage(){
+  switchToTop(){
+
+     this.setState({
+      tab:1
+    })
 
   }
 
+  switchToStarred(){
+
+  this.setState({
+      tab:2
+    })
+  }
+
+  
 
 
-
-  render() {
+render() {
     return (
       <div className="container">
         <div className="row">
           <div className="col-md-12">
-          <div className="navigation">
-          <ul>
-          <li onClick = {this.mainPage}>Top</li>
-          <li onClick ={this.starredPage}>Starred</li>
-          </ul>
-          </div>
-            <h1>{this.props.headerText}</h1>
+            <NewsHeader
+            switchToTop = {this.switchToTop}
+            switchToStarred = {this.switchToStarred}
+            />
+            <h3>{this.props.headerText}</h3>
           </div>
         </div>
         <NewsList
         newsList = {this.state.newsList}
+        tab = {this.state.tab}
         increaseUpvotes = {this.increaseUpvotes}
+        starredNews={this.starredNews}
          />
         
       </div>
     );
+  
   }
 }
 

@@ -2,9 +2,29 @@ import React from 'react';
 import NewsData from './newsItem';
 
 class NewsList extends React.Component {
+
+  constructor(props) {
+    super(props);
+   } 
   render() {
 
-  	var news = this.props.newsList.sort(function(a,b){
+    var filteredList =[];
+    if(this.props.tab === 2){
+
+      filteredList = this.props.newsList.filter(function(item){
+
+        if(item.isStarred ===true)
+          return item;
+      })
+
+    }
+
+    else if(this.props.tab === 1){
+
+      filteredList = this.props.newsList;
+    }
+
+  	var news = filteredList.sort(function(a,b){
   		
   		{return b.upvotes - a.upvotes}
   	}).map(newsitem => {
@@ -12,6 +32,7 @@ class NewsList extends React.Component {
         <NewsData
           key={newsitem.id}
           increaseUpvotes={this.props.increaseUpvotes}
+          starredNews={this.props.starredNews}
           {...newsitem}
          />
       );
